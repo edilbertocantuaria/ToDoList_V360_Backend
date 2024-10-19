@@ -17,4 +17,10 @@ Rails.application.routes.draw do
   post "task-lists/:listId/tasks" => "tasks#create", as: :create_task
   put "task-lists/:listId/tasks/:taskId" => "tasks#update", as: :update_task
   delete "task-lists/:listId/tasks/:taskId" => "tasks#destroy", as: :destroy_task
+
+  get "tags" => "tags#index", as: :tags_index
+  get "tags/:tagId" => "tags#show", as: :tags
+  post "tags" => "tags#create", as: :create_tag
+  put "tags/:tagId" => "tags#update", as: :update_tag
+  delete "tags/:tagId" => "tags#destroy", as: :destroy_tag
 end
