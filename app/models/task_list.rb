@@ -14,5 +14,11 @@ class TaskList < ApplicationRecord
     end
   end
 
+  def percentage
+    return 0 if tasks.empty?
+    done_tasks = tasks.where(is_task_done: true).count
+    (done_tasks.to_f / tasks.count * 100).round(2)
+  end
+
 end
 

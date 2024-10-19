@@ -6,10 +6,10 @@ class TaskListsController < ApplicationController
     end
   
     def index
-      @task_lists = @current_user.task_lists
-      render json: @task_lists, status: :ok
+      @task_lists = @current_user.task_lists.includes(:tasks) 
+      render json: @task_lists.as_json(include: { tasks: { only: [:id, :task_description, :is_task_done] } }, methods: :percentage), status: :ok
     end
-  
+
     def show
       @task_list = @current_user.task_lists.find(params[:id])
       render json: @task_list, status: :ok

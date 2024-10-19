@@ -23,7 +23,6 @@ class UsersController < ApplicationController
     ActiveRecord::Base.transaction do
       @user = User.new(user_params)
       if @user.save!
-        Rails.logger.info("User created successfully: #{@user.inspect}")
         render json: {
           idUser: @user.id,
           name: @user.name,
@@ -42,11 +41,9 @@ class UsersController < ApplicationController
   def login
     @user = User.find_by(email: params[:email])
     if @user&.authenticate(params[:password])
-      Rails.logger.info("Login successful for user: #{@user.inspect}")
       token = JsonWebToken.encode(user_id: @user.id)
       render json: { token: token }, status: :ok
     else
-      Rails.logger.info("Login failed: Invalid email or password")
       render json: { error: 'Invalid email or password' }, status: :unauthorized
     end
   end
