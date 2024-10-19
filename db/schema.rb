@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_19_040141) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_19_060422) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,7 +27,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_19_040141) do
     t.string "attachment"
     t.decimal "percentage"
     t.bigint "user_id", null: false
-    t.bigint "tag_id", null: false
+    t.bigint "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tag_id"], name: "index_task_lists_on_tag_id"

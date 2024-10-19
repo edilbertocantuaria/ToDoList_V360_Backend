@@ -5,7 +5,7 @@ class CreateTaskLists < ActiveRecord::Migration[7.2]
       t.string :attachment
       t.decimal :percentage
       t.references :user, null: false, foreign_key: true
-      t.references :tag, null: false, foreign_key: true
+      t.references :tag, null: true, foreign_key: true
 
       t.timestamps
     end
