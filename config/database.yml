@@ -9,3 +9,9 @@ development:
   database: to_do_list_v360_development
   username: postgres
   password: postgres
+
+test:
+  <<: *default
+  database: to_do_list_v360_test
+  username: postgres
+  password: postgres
