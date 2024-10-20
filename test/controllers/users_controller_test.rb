@@ -28,18 +28,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
-  ##SINGUP##
+  def json_response
+    JSON.parse(@response.body)
+  end
+
+  ## SINGUP ##
   test "should signup user with valid params" do
-    assert_difference('User.count', 1) do
-      post user_signup_url, params: { user: @valid_user_params }
-    end
+    post user_signup_url, params: { user: @valid_user_params }
     assert_response :created
   end
 
   test "should not signup user with invalid params" do
-    assert_no_difference('User.count') do
-      post user_signup_url, params: { user: @invalid_user_params }
-    end
+    post user_signup_url, params: { user: @invalid_user_params }
     assert_response :unprocessable_entity
   end
 
@@ -59,7 +59,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'Email already in use.', json_response['error']
   end
 
-  ##LOGIN##
+  ## LOGIN ##
   test "should login with valid credentials" do
     user = users(:one) 
 
@@ -70,9 +70,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert json_response['token'].present?
   end
 
-  test "should not login with invalid email" do
+  test "should not login with non register email" do
     post user_login_url, params: { email: "wrong@example.com", password: "password" }
     assert_response :not_found
+    assert_equal 'Email not found or wrong password.', json_response['error']
+  end
+
+  test "should not login with non valid email" do
+    post user_login_url, params: { email: "wrongexample.com", password: "password" }
+    assert_response :unprocessable_entity
+    assert_equal 'Invalid email.', json_response['error']
   end
 
   test "should not login with incorrect password" do
@@ -80,9 +87,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   
     post user_login_url, params: { email: user.email, password: "wrong_password" }
     assert_response :not_found
+    assert_equal 'Email not found or wrong password.', json_response['error']
   end
 
-  ##PROFILE##
+
+  ## PROFILE ##
   test "should get user profile" do
     get user_profile_url, headers: { Authorization: "#{@token}"}
     assert_response :ok

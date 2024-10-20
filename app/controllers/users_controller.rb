@@ -51,11 +51,6 @@ class UsersController < ApplicationController
       return
     end
 
-    unless params[:password].present? && params[:password].is_a?(String)
-      render json: { error: 'Incorrect password or invalid format.' }, status: :unprocessable_entity
-      return
-    end
-
     @user = User.find_by(email: params[:email])
 
     if @user && @user.authenticate(params[:password])
