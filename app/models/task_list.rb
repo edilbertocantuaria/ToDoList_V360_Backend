@@ -6,11 +6,27 @@ class TaskList < ApplicationRecord
   validates :title, presence: true
   validates :attachment, format: { with: URI::regexp(%w[http https]), message: 'must be a valid URL' }, allow_blank: true
   
-  validate :only_one_tag
+  validate :title_must_be_string
+  validate :attachment_is_valid_url
+  validate :tag_belongs_to_user
 
-  def only_one_tag
-    if tag.present? && TaskList.where(user: user, tag: tag).count > 1
-      errors.add(:tag, 'Only one tag is allowed per task list.')
+  def title_must_be_string
+    unless title.is_a?(String)
+      errors.add(:title, 'Must be a string')
+    end
+  end
+
+  def attachment_is_valid_url
+    return if attachment.blank? 
+
+    unless attachment =~ /\A(http|https):\/\/[^\s]+/ 
+      errors.add(:attachment, 'Attachment must be an URL valid.')
+    end
+  end
+
+  def tag_belongs_to_user
+    if tag.present? && !user.tags.include?(tag)
+      errors.add(:tag, 'Tag must belong to the user.')
     end
   end
 
@@ -19,6 +35,4 @@ class TaskList < ApplicationRecord
     done_tasks = tasks.where(is_task_done: true).count
     (done_tasks.to_f / tasks.count * 100).round(2)
   end
-
 end
-
