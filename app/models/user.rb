@@ -9,7 +9,6 @@ class User < ApplicationRecord
 
     validate  :user_picture_is_valid_url
     validate  :name_must_be_string
-    validate  :password_must_be_string
 
     def user_picture_is_valid_url
       return if user_picture.blank? 
@@ -21,15 +20,8 @@ class User < ApplicationRecord
 
     def name_must_be_string
       unless name.is_a?(String)
-        errors.add(:name, 'Name ust be a string.')
+        errors.add(:name, 'Name must be a string.')
       end
     end
-
-    def password_must_be_string
-      unless password.is_a?(String)
-        errors.add(:password, 'Password must be a string.')
-      end
-    end
-
 
 end

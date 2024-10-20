@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   skip_before_action :authorize_request, only: [:signup, :login]
-  # before_action :authorize_request, only: :profile
 
   def new
     @user = User.new
@@ -59,7 +58,7 @@ class UsersController < ApplicationController
 
     @user = User.find_by(email: params[:email])
 
-    if @user&.authenticate(params[:password])
+    if @user && @user.authenticate(params[:password])
       token = JsonWebToken.encode(user_id: @user.id)
       render json: { token: token }, status: :ok
     else

@@ -1,11 +1,11 @@
 one:
-  name: MyString
-  email: MyString
-  password: MyString
-  user_picture: MyString
+  name: "João"
+  email: "joao@exemple.com"
+  user_picture: "https://this-person-does-not-exist.com/img/avatar-gen4d7d1a21370be0121492737cf21c5f42.jpg"
+  password_digest: <%= User.new(name: 'João', email: 'joao@exemple.com', password: 'password123').password_digest %>
 
 two:
-  name: MyString
-  email: MyString
-  password: MyString
-  user_picture: MyString
+  name: "Maria"
+  email: "maria@exemple.com"
+  user_picture: "https://this-person-does-not-exist.com/img/avatar-gen6a24cb5b4810da7f68227a502b53ba62.jpg"
+  password_digest: <%= User.new(name: 'Maria', email: 'maria@exemple.com', password: 'password456').password_digest %>
