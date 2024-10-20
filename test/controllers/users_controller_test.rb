@@ -8,6 +8,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       password: "password789", 
       user_picture: "https://this-person-does-not-exist.com/img/avatar-gen55a4c0eee31e4ed8d9c618a9815c53cf.jpg"
     )
+
+    @token = JsonWebToken.encode(user_id: @user.id)
   end
   
   setup do
@@ -26,7 +28,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
-  ##SINGUP
+  ##SINGUP##
   test "should signup user with valid params" do
     assert_difference('User.count', 1) do
       post user_signup_url, params: { user: @valid_user_params }
@@ -56,9 +58,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     json_response = JSON.parse(response.body)
     assert_equal 'Email already in use.', json_response['error']
   end
-  
 
-  ##LOGIN
+  ##LOGIN##
   test "should login with valid credentials" do
     user = users(:one) 
 
@@ -80,5 +81,24 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     post user_login_url, params: { email: user.email, password: "wrong_password" }
     assert_response :not_found
   end
+
+  ##PROFILE##
+  test "should get user profile" do
+    get user_profile_url, headers: { Authorization: "#{@token}"}
+    assert_response :ok
+  
+    json_response = JSON.parse(response.body)
+    assert_equal @user.id, json_response['idUser']
+    assert_equal @user.name, json_response['name']
+    assert_equal @user.email, json_response['email']
+    assert_equal @user.user_picture, json_response['userPicture']
+    assert_equal @user.created_at.as_json, json_response['createdAt'] 
+  end
+  
+  test "should not get user profile" do
+    get user_profile_url, headers: {}
+    assert_response :unauthorized
+  end
+
 end
 
