@@ -28,7 +28,7 @@ class UsersController < ApplicationController
         return 
       end
 
-      if @user.save!
+      if @user.save
         render json: {
           idUser: @user.id,
           name: @user.name,
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
           createdAt: @user.created_at
         }, status: :created
       else
-        render json: @user.errors, status: :unprocessable_entity
+        render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
         raise ActiveRecord::Rollback
       end
 
@@ -64,6 +64,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :user_picture)
+  end
+
+  def format_errors(errors)
+    errors.full_messages
   end
 
 end

@@ -41,6 +41,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should not signup user with invalid params" do
     post user_signup_url, params: { user: @invalid_user_params }
     assert_response :unprocessable_entity
+
+    assert_kind_of Array, json_response['errors']
+    assert_includes json_response['errors'], "Name can't be blank"
+    assert_includes json_response['errors'], "Email is invalid"
+    assert_includes json_response['errors'], "Name Only alphabetic characters."
+    assert_includes json_response['errors'], "Password is too short (minimum is 6 characters)"
+    assert_includes json_response['errors'],     "User picture User picture must be an URL valid."
   end
 
   test "should not signup user when email conflicts" do
