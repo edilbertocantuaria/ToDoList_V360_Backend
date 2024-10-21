@@ -74,7 +74,7 @@ class TaskListsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "should not save a task list with invalid params and raise Rollback" do
+  test "should not save a task list with invalid params" do
     post create_task_list_url, params: { title: "" }, headers: @headers 
     assert_response :unprocessable_entity
   end

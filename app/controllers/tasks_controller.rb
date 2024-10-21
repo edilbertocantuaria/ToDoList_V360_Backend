@@ -22,6 +22,12 @@ class TasksController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
       task_list = TaskList.find(params[:listId])
+
+      unless task_list
+        render json: { error: 'Task list not found' }, status: :not_found
+        return
+      end
+
       task = task_list.tasks.build(task_params)
 
       if task.save!
