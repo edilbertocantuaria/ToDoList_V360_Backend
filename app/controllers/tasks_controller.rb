@@ -28,7 +28,7 @@ class TasksController < ApplicationController
         render json: format_task(task), status: :created
       else
         render json: { errors: task.errors.full_messages }, status: :unprocessable_entity
-      end
+       end
     end
   rescue ActiveRecord::Rollback  
   end

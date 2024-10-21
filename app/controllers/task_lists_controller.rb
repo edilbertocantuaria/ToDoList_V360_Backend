@@ -76,4 +76,9 @@ class TaskListsController < ApplicationController
       whitelisted[:tag_id] = params[:tag_id] if params[:tag_id].present?
     end
   end
+
+  def format_errors(errors)
+    errors.full_messages
+  end
+
 end

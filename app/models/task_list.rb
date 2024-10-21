@@ -4,17 +4,10 @@ class TaskList < ApplicationRecord
   has_many :tasks, dependent: :destroy
 
   validates :title, presence: true
-  validates :attachment, format: { with: URI::regexp(%w[http https]), message: 'must be a valid URL' }, allow_blank: true
+  validates :attachment, format: { with: URI::regexp(%w[http https]), message: 'Attachment must be a valid URL' }, allow_blank: true
   
-  validate :title_must_be_string
   validate :attachment_is_valid_url
   validate :tag_belongs_to_user
-
-  def title_must_be_string
-    unless title.is_a?(String)
-      errors.add(:title, 'Must be a string')
-    end
-  end
 
   def attachment_is_valid_url
     return if attachment.blank? 
