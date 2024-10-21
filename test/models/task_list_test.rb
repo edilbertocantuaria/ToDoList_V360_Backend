@@ -23,9 +23,10 @@ class TaskListTest < ActiveSupport::TestCase
   end
 
 
-  test "should not save task list with an invalid URL" do
-    taskList = TaskList.new(title: "My task list", attachment: "invalid_url")
-    assert_not taskList.save, "Saved the task list with an invalid URL"
+  test "should add error if attachment is invalid" do
+    task_list = TaskList.new(title: "Task list", user: @user, attachment: "invalid_url")
+    task_list.validate 
+    assert_includes task_list.errors[:attachment], 'Attachment must be an URL valid.', "Did not add error for invalid attachment"
   end
 
   test "should not save task list with a tag that does not belong to the user" do
@@ -53,6 +54,28 @@ class TaskListTest < ActiveSupport::TestCase
     assert task_list.save, "Failed to save task list without an attachment"
   end
   
+  test "should return 0% if there are no tasks" do
+    task_list = TaskList.create!(title: "Empty task list", user: @user)
+    assert_equal 0.0, task_list.percentage, "Percentage should be 0% for empty task list"
+  end
+
+  test "should return 100% if all tasks are done" do
+    task_list = TaskList.create!(title: "Completed task list", user: @user)
+    task_list.tasks.create!(task_description: "Task 1", is_task_done: true)
+    task_list.tasks.create!(task_description: "Task 2", is_task_done: true)
+  
+    assert_equal 100.0, task_list.percentage, "Percentage should be 100% for all completed tasks"
+  end
+  
+  test "should calculate correct percentage with mixed tasks" do
+    task_list = TaskList.create!(title: "Mixed task list", user: @user)
+    task_list.tasks.create!(task_description: "Task 1", is_task_done: true)
+    task_list.tasks.create!(task_description: "Task 2", is_task_done: false)
+    task_list.tasks.create!(task_description: "Task 3", is_task_done: true)
+  
+    assert_equal 66.67, task_list.percentage, "Incorrect percentage of completed tasks with mixed completion"
+  end
+
   test "should return correct percentage of completed tasks" do
     task_list = TaskList.create!(title: "Task list", user: @user)
     

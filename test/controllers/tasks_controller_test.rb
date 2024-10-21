@@ -73,7 +73,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not update task if no authenticated" do
-    put update_task_url(listId: @task_list.id, taskId: @task.id), params: { task_description: "Second task", is_task_done: true }
+    put update_task_url(listId: @task_list.id, taskId: @task.id), params: { task_description: "Second task", is_task_done: true }, headers: {}
     assert_response :unauthorized
   end
 

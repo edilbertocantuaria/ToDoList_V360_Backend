@@ -31,7 +31,7 @@ class TaskTest < ActiveSupport::TestCase
 
   test "should set default is_task_done to false" do
     task = Task.new(task_list: @task_list, task_description: "Task with no is_task_done set")
-    assert task.save, "Failed to save task"
+    task.save
     assert_not task.is_task_done, "Task is_task_done was not set to false by default"
   end
 
