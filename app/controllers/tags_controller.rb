@@ -15,52 +15,56 @@ class TagsController < ApplicationController
   
     def show
       tag = @current_user.tags.find_by(id: params[:tagId])
+
       if tag
         render json: format_tag(tag), status: :ok
       else
         render json: { message: 'Tag not found' }, status: :not_found
       end
+
     end
   
     def create
       ActiveRecord::Base.transaction do
         tag = @current_user.tags.new(tag_params)
+
         if tag.save!
-          render json: format_tag(tag), status: :ok
+          render json: format_tag(tag), status: :created
         else
           render json: { errors: tag.errors.full_messages }, status: :unprocessable_entity
         end
+
       end
     rescue ActiveRecord::Rollback
     end
   
     def update
       tag = @current_user.tags.find_by(id: params[:tagId])
-  
+
       unless tag
-        render json: { message: 'Tag not found' }, status: :not_found
+        render json: { error: 'Tag not found' }, status: :not_found
         return
       end
-  
+
       if tag.update(tag_params)
         render json: format_tag(tag), status: :ok
       else
         render json: { errors: tag.errors.full_messages }, status: :unprocessable_entity
       end
     end
-  
+
     def destroy
       tag = @current_user.tags.find_by(id: params[:tagId])
-  
+    
       unless tag
-        render json: { message: 'Tag not found' }, status: :not_found
+        render json: { error: 'Tag not found' }, status: :not_found  
         return
       end
-  
+    
       tag.destroy
       head :no_content
     end
-  
+    
     def format_tags(tags)
       tags.map { |tag| format_tag(tag) }
     end

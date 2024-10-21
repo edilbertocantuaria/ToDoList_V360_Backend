@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-    has_many :task_lists
-    has_many :tags
+    has_many :task_lists, dependent: :destroy
+    has_many :tags, dependent: :destroy
     
     has_secure_password
     validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
