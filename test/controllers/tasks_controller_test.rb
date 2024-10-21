@@ -95,6 +95,19 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   
     assert_equal expected_percentage, new_task_list.percentage, "Completion percentage should be updated"
   end
+
+  test "should return correct percentage of completed tasks" do
+    new_task_list = TaskList.create!(title: "New Task List", user_id: @user.id)
+  
+    new_task_list.tasks.create!(task_description: "Task 1", is_task_done: false) 
+    new_task_list.tasks.create!(task_description: "Task 2", is_task_done: true)  
+    new_task_list.tasks.create!(task_description: "Task 3", is_task_done: true)  
+
+    new_task_list.reload
+  
+    expected_percentage = 66.67
+    assert_equal expected_percentage, new_task_list.percentage, "Completion percentage should be 66.67%"
+  end
   
   ## DESTROY ##
   test "should delete task with valid params" do
