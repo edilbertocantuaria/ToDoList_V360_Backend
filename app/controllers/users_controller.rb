@@ -10,11 +10,14 @@ class UsersController < ApplicationController
   end
 
   def profile
+    task_list_count = @current_user.task_lists.count
+    
     render json: {
       idUser: @current_user.id,
       name: @current_user.name,
       email: @current_user.email,
       userPicture: @current_user.user_picture,
+      taskListsCreated: task_list_count,
       createdAt: @current_user.created_at
     }, status: :ok
   end

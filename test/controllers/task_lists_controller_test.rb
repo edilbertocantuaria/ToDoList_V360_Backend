@@ -4,7 +4,7 @@ class TaskListsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = User.create!(
       name: "Jose",
-      email: "jose@exemple.com",
+      email: "jose@example.com",
       password: "password789", 
       user_picture: "https://this-person-does-not-exist.com/img/avatar-gen55a4c0eee31e4ed8d9c618a9815c53cf.jpg"
     )

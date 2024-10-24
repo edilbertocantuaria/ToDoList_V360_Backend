@@ -8,7 +8,7 @@ user1 = User.create!(
   email: "edilberto@example.com",
   password: "password123",
   password_confirmation: "password123",
-  user_picture: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.linkedin.com%2Fin%2Fedilberto-cantuaria&psig=AOvVaw0IjFzap_aybd7HjCwc_ov8&ust=1729345085796000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLj_9M2GmIkDFQAAAAAdAAAAABAE"
+  user_picture: "https://this-person-does-not-exist.com/img/avatar-gen851f9c29e5f6857320e36f7359c01c5b.jpg"
 )
 
 user2 = User.create!(
@@ -16,7 +16,7 @@ user2 = User.create!(
   email: "maria@example.com",
   password: "password456",
   password_confirmation: "password456",
-  user_picture: "https://thispersondoesnotexist.com/"
+  user_picture: "https://this-person-does-not-exist.com/img/avatar-gen4e1a0a1daffae1239fe54c59b1003ba4.jpg"
 )
 
 tag1 = Tag.create!(tag_name: "Trabalho", user: user1)
