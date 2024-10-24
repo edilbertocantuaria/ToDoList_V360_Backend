@@ -16,6 +16,11 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.save, "Saved the user without a password"
   end
 
+  test "should not save user when password and confirmation password conflict" do
+    user = User.new(name: "Test User", email: "test@example.com", password: "password123", password_confirmation: "password123456")
+    assert_not user.save, "Saved the user when passwords do not match"
+  end
+
   test "should not save user with duplicate email" do
     existing_user = users(:one) 
     user = User.new(name: "Another User", email: existing_user.email, password: "password123")
@@ -45,17 +50,17 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test "should save user with valid user_picture URL" do
-    user = User.new(name: "Valid User", email: "valid@example.com", password: "password123", user_picture: "https://this-person-does-not-exist.com/img/avatar-gen4d7d1a21370be0121492737cf21c5f42.jpg")
+    user = User.new(name: "Valid User", email: "valid@example.com", password: "password123", password_confirmation: "password123",user_picture: "https://this-person-does-not-exist.com/img/avatar-gen4d7d1a21370be0121492737cf21c5f42.jpg")
     assert user.save, "Failed to save the user with valid user_picture URL"
   end
 
   test "should save user with valid attributes" do
-    user = User.new(name: "Valid User", email: "valid@example.com", password: "password123")
+    user = User.new(name: "Valid User", email: "valid@example.com", password: "password123", password_confirmation: "password123")
     assert user.save, "Failed to save the user with valid attributes"
   end
 
   test "should save user with valid user_picture" do
-    user = User.new(name: "Valid User", email: "valid@example.com", password: "password123", user_picture:"https://this-person-does-not-exist.com/img/avatar-gen4d7d1a21370be0121492737cf21c5f42.jpg")
+    user = User.new(name: "Valid User", email: "valid@example.com", password: "password123", password_confirmation: "password123", user_picture:"https://this-person-does-not-exist.com/img/avatar-gen4d7d1a21370be0121492737cf21c5f42.jpg")
     assert user.save, "Failed to save the user with valid attributes"
   end
 end

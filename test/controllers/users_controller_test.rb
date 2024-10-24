@@ -6,6 +6,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       name: "Jose",
       email: "jose@exemple.com",
       password: "password789", 
+      password_confirmation: "password789", 
       user_picture: "https://this-person-does-not-exist.com/img/avatar-gen55a4c0eee31e4ed8d9c618a9815c53cf.jpg"
     )
 
@@ -17,6 +18,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       name: "John Doe",
       email: "johndoe@example.com",
       password: "password123",
+      password_confirmation:"password123",
       user_picture: "https://example.com/picture.jpg"
     }
     
@@ -24,6 +26,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       name: "",
       email: "invalid_email",
       password: "123",
+      password_confirmation:"password123",
       user_picture: "invalid_url"
     }
   end
@@ -34,12 +37,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   ## SINGUP ##
   test "should signup user with valid params" do
-    post user_signup_url, params: { user: @valid_user_params }
+    post user_signup_url, params: @valid_user_params 
     assert_response :created
   end
 
   test "should not signup user with invalid params" do
-    post user_signup_url, params: { user: @invalid_user_params }
+    post user_signup_url, params: @invalid_user_params 
     assert_response :unprocessable_entity
 
     assert_kind_of Array, json_response['errors']
@@ -47,25 +50,25 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_includes json_response['errors'], "Email is invalid"
     assert_includes json_response['errors'], "Name Only alphabetic characters."
     assert_includes json_response['errors'], "Password is too short (minimum is 6 characters)"
-    assert_includes json_response['errors'],     "User picture User picture must be an URL valid."
+    assert_includes json_response['errors'],  "User picture User picture must be an URL valid."
+    assert_includes json_response['errors'], "Password confirmation doesn't match Password"
   end
 
   test "should not signup user when email conflicts" do
     existing_user = users(:one)
   
-    post user_signup_url, params: { user:
-      {
-      name: 'Novo Usuário',
+    post user_signup_url, params: {
+      name: 'New User',
       email: existing_user.email,
-      password: 'newPassword123123'
-      }
+      password: 'newPassword123123',
+      password_confirmation: 'newPassword123123'
     }
   
     assert_response :conflict
     json_response = JSON.parse(response.body)
     assert_equal 'Email already in use.', json_response['error']
   end
-
+  
   ## LOGIN ##
   test "should login with valid credentials" do
     user = users(:one) 
