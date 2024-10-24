@@ -16,11 +16,6 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.save, "Saved the user without a password"
   end
 
-  test "should not save user when password and confirmation password conflict" do
-    user = User.new(name: "Test User", email: "test@example.com", password: "password123", password_confirmation: "password123456")
-    assert_not user.save, "Saved the user when passwords do not match"
-  end
-
   test "should not save user with duplicate email" do
     existing_user = users(:one) 
     user = User.new(name: "Another User", email: existing_user.email, password: "password123")

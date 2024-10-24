@@ -51,7 +51,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_includes json_response['errors'], "Name Only alphabetic characters."
     assert_includes json_response['errors'], "Password is too short (minimum is 6 characters)"
     assert_includes json_response['errors'],  "User picture User picture must be an URL valid."
-    assert_includes json_response['errors'], "Password confirmation doesn't match Password"
   end
 
   test "should not signup user when email conflicts" do

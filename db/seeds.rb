@@ -7,6 +7,7 @@ user1 = User.create!(
   name: "Edilberto",
   email: "edilberto@example.com",
   password: "password123",
+  password_confirmation: "password123",
   user_picture: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fbr.linkedin.com%2Fin%2Fedilberto-cantuaria&psig=AOvVaw0IjFzap_aybd7HjCwc_ov8&ust=1729345085796000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLj_9M2GmIkDFQAAAAAdAAAAABAE"
 )
 
@@ -14,6 +15,7 @@ user2 = User.create!(
   name: "Maria",
   email: "maria@example.com",
   password: "password456",
+  password_confirmation: "password456",
   user_picture: "https://thispersondoesnotexist.com/"
 )
 
