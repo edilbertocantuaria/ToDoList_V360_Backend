@@ -1,0 +1,39 @@
+services:
+  web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: to_do_list
+      DB_PORT: 5432
+      RAILS_ENV: development
+    command: ["rails", "server", "-b", "0.0.0.0"]
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: to_do_list_v360_development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  test:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      RAILS_ENV: test  
+    entrypoint: ["./entrypoint.sh"]
+    command: ["rails", "test"]
+
+volumes:
+  postgres_data:
