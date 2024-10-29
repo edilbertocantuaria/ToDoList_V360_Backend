@@ -23,30 +23,35 @@ class UsersController < ApplicationController
   end
 
   def signup
-    ActiveRecord::Base.transaction do
-      @user = User.new(user_params)
-
-      if User.exists?(email: @user.email)
-        render json: { error: 'Email already in use.' }, status: :conflict
-        return 
+    begin
+      ActiveRecord::Base.transaction do
+        @user = User.new(user_params)
+  
+        if User.exists?(email: @user.email)
+          render json: { error: 'Email already in use.' }, status: :conflict
+          return 
+        end
+  
+        if @user.save
+          render json: {
+            idUser: @user.id,
+            name: @user.name,
+            email: @user.email,
+            userPicture: @user.user_picture,
+            createdAt: @user.created_at
+          }, status: :created
+        else
+          Rails.logger.info(@user.errors.full_messages)
+          render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+        end
+  
       end
-
-      if @user.save
-        render json: {
-          idUser: @user.id,
-          name: @user.name,
-          email: @user.email,
-          userPicture: @user.user_picture,
-          createdAt: @user.created_at
-        }, status: :created
-      else
-        render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
-        raise ActiveRecord::Rollback
-      end
-
+    rescue => e
+      Rails.logger.error("Error creating user: #{e.message}")
+      render json: { error: 'An internal error occurred.' }, status: :internal_server_error
     end
-  rescue ActiveRecord::Rollback
   end
+  
 
   def login
     unless params[:email].present? && params[:email].match?(URI::MailTo::EMAIL_REGEXP)
