@@ -6,6 +6,7 @@ class TaskTest < ActiveSupport::TestCase
       name: "Jose",
       email: "jose@example.com",
       password: "password789", 
+      password_confirmation: "password789", 
       user_picture: "https://this-person-does-not-exist.com/img/avatar-gen55a4c0eee31e4ed8d9c618a9815c53cf.jpg"
     )
   

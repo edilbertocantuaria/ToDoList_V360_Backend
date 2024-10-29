@@ -7,6 +7,7 @@ class TaskListTest < ActiveSupport::TestCase
       name: "Jose",
       email: "jose@example.com",
       password: "password789", 
+      password_confirmation: "password789", 
       user_picture: "https://this-person-does-not-exist.com/img/avatar-gen55a4c0eee31e4ed8d9c618a9815c53cf.jpg"
     )
   
@@ -26,9 +27,9 @@ class TaskListTest < ActiveSupport::TestCase
   test "should add error if attachment is invalid" do
     task_list = TaskList.new(title: "Task list", user: @user, attachment: "invalid_url")
     task_list.validate 
-    assert_includes task_list.errors[:attachment], 'Attachment must be an URL valid.', "Did not add error for invalid attachment"
+    assert_includes task_list.errors[:attachment], 'Attachment must be a valid URL.', "Did not add error for invalid attachment"
   end
-
+  
   test "should not save task list with a tag that does not belong to the user" do
     invalid_tag = Tag.new(tag_name: "Invalid tag")
     task_list = TaskList.new(title: "My task list", user: @user, tag: invalid_tag) 
