@@ -2,16 +2,15 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] || 5432 %>
 
 development:
   <<: *default
-  database: to_do_list_v360_development
-  username: postgres
-  password: postgres
+  database: <%= ENV['DEVELOPMENT_DATABASE'] %>
 
 test:
   <<: *default
-  database: to_do_list_v360_test
-  username: postgres
-  password: postgres
+  database: <%= ENV['TEST_DATABASE'] %>
