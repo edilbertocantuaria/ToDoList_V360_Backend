@@ -1,12 +1,12 @@
 databases:
-  - name: toDoList-postgresql
-    databaseName: to_do_list_production
-    user: to_do_list_production_user
+  - name: mysite
+    databaseName: mysite
+    user: mysite
     plan: free
 
 services:
   - type: web
-    name: todolist
+    name: mysite
     runtime: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
@@ -15,7 +15,7 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: to_do_list_production
+          name: mysite
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
