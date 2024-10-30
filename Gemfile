@@ -11,7 +11,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem 'zeitwerk'
 gem 'dotenv-rails'
-gem 'ostruct'
+
 
 gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 gem "brakeman", require: false
@@ -19,6 +19,6 @@ gem "rubocop-rails-omakase", require: false
 
 gem "minitest-reporters" 
 gem "simplecov", require: false 
-end
+
 
 
