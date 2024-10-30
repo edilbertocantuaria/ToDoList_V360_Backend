@@ -12,13 +12,13 @@ gem "bootsnap", require: false
 gem 'zeitwerk'
 gem 'dotenv-rails'
 
+group :development, :test do
+  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "brakeman", require: false
+  gem "rubocop-rails-omakase", require: false
 
-gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-gem "brakeman", require: false
-gem "rubocop-rails-omakase", require: false
-
-gem "minitest-reporters" 
-gem "simplecov", require: false 
-
+  gem "minitest-reporters" 
+  gem "simplecov", require: false 
+end
 
 
