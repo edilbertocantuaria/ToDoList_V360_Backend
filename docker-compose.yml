@@ -1,5 +1,5 @@
 services:
-  web:
+  web: # Development environment
     build: .
     volumes:
       - .:/app
@@ -8,12 +8,12 @@ services:
     environment:
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
-      DB_HOST: to_do_list
+      DB_HOST: localhost #to_do_list
       DB_PORT: 5432
       RAILS_ENV: development
-    command: ["rails", "server", "-b", "0.0.0.0"]
+    command: ["bash", "-c", "rm -f /app/tmp/pids/server.pid && rails server -b 0.0.0.0"]
 
-  db:
+  db: # Shared database for all environments
     image: postgres:latest
     environment:
       POSTGRES_USER: postgres
@@ -22,7 +22,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  test:
+  test: # Test environment
     build: .
     volumes:
       - .:/app
@@ -31,9 +31,16 @@ services:
       DB_PASSWORD: postgres
       DB_HOST: db
       DB_PORT: 5432
-      RAILS_ENV: test  
+      RAILS_ENV: test
     entrypoint: ["./entrypoint.sh"]
     command: ["rails", "test"]
 
+  production:
+    adapter: postgresql
+    encoding: unicode
+    pool: 5
+    url: <%= ENV['DATABASE_URL'] %>
+
+
 volumes:
-  postgres_data:
+  postgres_data: # Persistent storage for database
