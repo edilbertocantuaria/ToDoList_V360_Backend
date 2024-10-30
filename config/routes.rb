@@ -22,4 +22,7 @@ Rails.application.routes.draw do
   post "tags" => "tags#create", as: :create_tag
   put "tags/:tagId" => "tags#update", as: :update_tag
   delete "tags/:tagId" => "tags#destroy", as: :destroy_tag
+
+  get 'render/index'  
+  root "render#index"
 end
