@@ -27,7 +27,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    needs: build 
+    needs: build
 
     steps:
       - name: Checkout code
@@ -43,8 +43,8 @@ jobs:
         run: bundle install
 
       - name: Run Lint
-        run: bundle exec rubocop 
-
+        run: bundle exec rubocop
+  
   test:
     runs-on: ubuntu-latest
     needs: build 
