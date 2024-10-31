@@ -29,7 +29,6 @@ module ToDoListV360
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    require 'dotenv/load'
-
+    require "dotenv/load"
   end
 end
