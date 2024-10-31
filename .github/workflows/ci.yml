@@ -22,11 +22,13 @@ jobs:
       - name: Check Ruby version
         run: ruby -v
 
-      - name: Reinstall Brakeman
-        run: gem install brakeman
+      - name: Install dependencies and regenerate binstubs
+        run: |
+          bundle install
+          bundle binstubs brakeman rubocop rails importmap
 
       - name: Run Brakeman (Security Scan)
-        run: brakeman --no-pager
+        run: bin/brakeman --no-pager
 
   scan_js:
     runs-on: ubuntu-latest
@@ -41,8 +43,10 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Set execute permission for Importmap
-        run: chmod +x bin/importmap
+      - name: Install dependencies and regenerate binstubs
+        run: |
+          bundle install
+          bundle binstubs importmap
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
@@ -60,8 +64,10 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Set execute permission for Rubocop
-        run: chmod +x bin/rubocop
+      - name: Install dependencies and regenerate binstubs
+        run: |
+          bundle install
+          bundle binstubs rubocop
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
@@ -92,8 +98,10 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Set execute permission for Rails
-        run: chmod +x bin/rails
+      - name: Install dependencies and regenerate binstubs
+        run: |
+          bundle install
+          bundle binstubs rails
 
       - name: Run tests
         env:
