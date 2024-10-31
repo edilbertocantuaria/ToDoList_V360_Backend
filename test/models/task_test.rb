@@ -5,11 +5,11 @@ class TaskTest < ActiveSupport::TestCase
     @user = User.create!(
       name: "Jose",
       email: "jose@example.com",
-      password: "password789", 
-      password_confirmation: "password789", 
+      password: "password789",
+      password_confirmation: "password789",
       user_picture: "https://this-person-does-not-exist.com/img/avatar-gen55a4c0eee31e4ed8d9c618a9815c53cf.jpg"
     )
-  
+
     @tag = @user.tags.create!(tag_name: "My tag")
 
     @task_list = TaskList.create!(title: "My Task List", tag_id: @tag.id, user_id: @user.id, attachment: "https://valid-url.com")

@@ -7,20 +7,20 @@ class TaskListsController < ApplicationController
 
   def index
     @task_lists = @current_user.task_lists.includes(:tasks)
-    render json: @task_lists.as_json(include: { tasks: { only: [:id, :task_description, :is_task_done] } }, methods: :percentage), status: :ok
+    render json: @task_lists.as_json(include: { tasks: { only: [ :id, :task_description, :is_task_done ] } }, methods: :percentage), status: :ok
   end
 
   def show
     @task_list = @current_user.task_lists.includes(:tasks).find(params[:id])
     render json: format_task_list(@task_list), status: :ok
   rescue ActiveRecord::RecordNotFound
-    render json: { error: 'Task list not found' }, status: :not_found
+    render json: { error: "Task list not found" }, status: :not_found
   end
 
   def create
     ActiveRecord::Base.transaction do
       @task_list = @current_user.task_lists.new(task_list_params)
-  
+
       if @task_list.save
         render json: format_task_list(@task_list), status: :created
       else
@@ -29,7 +29,7 @@ class TaskListsController < ApplicationController
       end
     end
   rescue ActiveRecord::Rollback
-  end  
+  end
 
   def update
     @task_list = @current_user.task_lists.find(params[:id])
@@ -48,7 +48,7 @@ class TaskListsController < ApplicationController
       @task_list.destroy
       head :no_content
     else
-      render json: { error: 'Task list not found' }, status: :not_found
+      render json: { error: "Task list not found" }, status: :not_found
     end
   end
 
@@ -66,8 +66,8 @@ class TaskListsController < ApplicationController
   end
 
   def task_list_params
-    params.require(:task_list).permit(:title, :attachment, :tag_id, tasks_attributes: [:task_description])
-  end  
+    params.require(:task_list).permit(:title, :attachment, :tag_id, tasks_attributes: [ :task_description ])
+  end
 
   def format_errors(errors)
     errors.full_messages

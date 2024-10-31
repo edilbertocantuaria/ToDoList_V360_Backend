@@ -5,11 +5,11 @@ class TagTest < ActiveSupport::TestCase
     @user = User.create!(
       name: "Jose",
       email: "jose@example.com",
-      password: "password789", 
-      password_confirmation: "password789", 
+      password: "password789",
+      password_confirmation: "password789",
       user_picture: "https://this-person-does-not-exist.com/img/avatar-gen55a4c0eee31e4ed8d9c618a9815c53cf.jpg"
     )
-      
+
     @tag = Tag.create(tag_name: "Important", user_id: @user.id)
   end
 
@@ -31,5 +31,4 @@ class TagTest < ActiveSupport::TestCase
     task_list = TaskList.create!(title: "My Tasks", tag_id: @tag.id, user_id: @user.id)
     assert_includes @tag.task_lists, task_list
   end
-
 end

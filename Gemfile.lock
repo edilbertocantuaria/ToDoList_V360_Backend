@@ -269,6 +269,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rack-cors
   rails (~> 7.2.1, >= 7.2.1.1)
+  rubocop
   rubocop-rails-omakase
   simplecov
   tzinfo-data

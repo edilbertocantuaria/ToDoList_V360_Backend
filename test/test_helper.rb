@@ -21,6 +21,5 @@ module ActiveSupport
       token = JsonWebToken.encode(user_id: user.id)
       { token: "#{token}" }
     end
-
   end
 end

@@ -114,7 +114,7 @@ task_lists_user1 = [
   { title: "Lista de Projetos Open Source", attachment: nil, tag: tag1, tasks: [
       { description: "Contribuir para projeto open source no GitHub", is_done: true },
       { description: "Revisar código de um repositório open source", is_done: false },
-      { description: "Abrir MR referente a issue F-543", is_done: true },
+      { description: "Abrir MR referente a issue F-543", is_done: true }
     ] },
   { title: "Lista de Músicas", attachment: nil, tag: nil, tasks: [
       { description: "Montar uma playlist de músicas para relaxar", is_done: true },
@@ -123,7 +123,7 @@ task_lists_user1 = [
   { title: "Lista de Artigos Científicos", attachment: nil, tag: tag3, tasks: [
       { description: "Ler artigo sobre inteligência artificial", is_done: true },
       { description: "Revisar artigo sobre ciência de dados", is_done: true }
-    ] },
+    ] }
 ]
 
 task_lists_user1.each do |task_list_data|
@@ -133,7 +133,7 @@ task_lists_user1.each do |task_list_data|
     attachment: task_list_data[:attachment],
     tag: task_list_data[:tag]
   )
-  
+
   task_list_data[:tasks].each do |task_data|
     Task.create!(
       task_list: task_list,
@@ -148,7 +148,7 @@ task_lists_user2 = [
   { title: "Lista de Tarefas Pessoais", attachment: "https://conasems-ava-prod.s3.sa-east-1.amazonaws.com/aulas/ava/dummy-1641923583.pdf", tag: tag2, tasks: [
       { description: "Comprar presentes de Natal", is_done: false },
       { description: "Agendar consulta médica", is_done: true }
-    ] },
+    ] }
 ]
 
 task_lists_user2.each do |task_list_data|
@@ -158,7 +158,7 @@ task_lists_user2.each do |task_list_data|
     attachment: task_list_data[:attachment],
     tag: task_list_data[:tag]
   )
-  
+
   task_list_data[:tasks].each do |task_data|
     Task.create!(
       task_list: task_list,
