@@ -53,6 +53,3 @@ jobs:
 
       - name: Shutdown Docker containers
         run: docker-compose down
-
-volumes:
-  postgres_data_dev:
