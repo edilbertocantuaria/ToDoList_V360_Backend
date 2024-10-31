@@ -6,41 +6,43 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: localhost #to_do_list
-      DB_PORT: 5432
-      RAILS_ENV: development
+      - RAILS_ENV=development 
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=db
+      - DB_PORT=${DB_PORT:-5432}
+      - DEVELOPMENT_DATABASE=${DEVELOPMENT_DATABASE}'
     command: ["bash", "-c", "rm -f /app/tmp/pids/server.pid && rails server -b 0.0.0.0"]
 
   db: # Shared database for all environments
     image: postgres:latest
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: to_do_list_v360_development
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DEVELOPMENT_DATABASE} 
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_dev:/var/lib/postgresql/data 
+    ports:
+      - "${DB_PORT:-5432}:5432"
 
-  test: # Test environment
-    build: .
-    volumes:
-      - .:/app
-    environment:
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: db
-      DB_PORT: 5432
-      RAILS_ENV: test
-    entrypoint: ["./entrypoint.sh"]
-    command: ["rails", "test"]
-
-  production:
-    adapter: postgresql
-    encoding: unicode
-    pool: 5
-    url: <%= ENV['DATABASE_URL'] %>
-
+  # test: # Test environment
+  #   build: .
+  #   volumes:
+  #     - .:/app
+  #   environment:
+  #     - RAILS_ENV=test 
+  #     - DB_USERNAME=${DB_USERNAME}
+  #     - DB_PASSWORD=${DB_PASSWORD}
+  #     - DB_HOST=db
+  #     - DB_PORT=${DB_PORT:-5432}
+  #   entrypoint: ["./entrypoint.sh"]
+  #   command: ["rails", "test"]
+  
+  # production:
+  #   adapter: postgresql
+  #   encoding: unicode
+  #   pool: 5
+  #   url: <%= ENV['DATABASE_URL'] %>
 
 volumes:
-  postgres_data: # Persistent storage for database
+  postgres_data_dev: 
