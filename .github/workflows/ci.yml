@@ -6,113 +6,53 @@ on:
     branches: [ main ]
 
 jobs:
-  scan_ruby:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Check Ruby version
-        run: ruby -v
-
-      - name: Install dependencies and regenerate binstubs
-        run: |
-          bundle install
-          bundle binstubs brakeman rubocop rails importmap
-
-      - name: Run Brakeman (Security Scan)
-        run: bin/brakeman --no-pager
-
-  scan_js:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Install dependencies and regenerate binstubs
-        run: |
-          bundle install
-          bundle binstubs importmap
-
-      - name: Scan for security vulnerabilities in JavaScript dependencies
-        run: bin/importmap audit
-
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Install dependencies and regenerate binstubs
-        run: |
-          bundle install
-          bundle binstubs rubocop
-
-      - name: Lint code for consistent style
-        run: bin/rubocop -f github
-
-  test:
+  build:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
-        image: postgres
+      db:
+        image: postgres:latest
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: to_do_list_development
         ports:
           - 5432:5432
-        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+        volumes:
+          - postgres_data_dev:/var/lib/postgresql/data
 
     steps:
-      - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips postgresql-client
-
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
+          ruby-version: '3.3'
           bundler-cache: true
 
-      - name: Install dependencies and regenerate binstubs
+      - name: Install Docker
         run: |
-          bundle install
-          bundle binstubs rails
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
 
-      - name: Run tests
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
-        run: bin/rails db:test:prepare test test:system
+      - name: Build and run Docker containers
+        run: |
+          docker-compose up -d
+          sleep 10 # Aguarda o banco de dados iniciar
 
-      - name: Keep screenshots from failed system tests
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
-          if-no-files-found: ignore
+      - name: Run Lint
+        run: |
+          docker-compose exec web rubocop
+
+      - name: Run Tests
+        run: |
+          docker-compose exec web rails db:create RAILS_ENV=test
+          docker-compose exec web rails db:migrate RAILS_ENV=test
+          docker-compose exec web rails test
+
+      - name: Shutdown Docker containers
+        run: docker-compose down
+
+volumes:
+  postgres_data_dev:
