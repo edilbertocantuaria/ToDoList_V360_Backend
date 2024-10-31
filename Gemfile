@@ -10,6 +10,7 @@ gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem 'zeitwerk'
+gem 'ostruct'
 gem 'dotenv-rails'
 
 group :development, :test do
