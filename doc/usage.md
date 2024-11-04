@@ -40,7 +40,6 @@ This API is designed to manage task lists, enabling users to organize tasks in a
 - [Task List](#task-list)
 - [Task](#task)
 - [Tags](#tags)
-- [Attachment](#attachment)
 
 ---
 

@@ -7,7 +7,7 @@ This API is designed to manage task lists, enabling users to organize tasks in a
 A user logs into the application to create a new project under their task lists. Within this project, they can add tasks with descriptions, assign tags to categorize these tasks, and attach relevant files for easy access. They can filter tasks by tags or due dates and mark tasks as complete when finished. All data is secure, as only authenticated users have access to their respective task lists and tasks.
 
 **API Documentation**
-   - Detailed API documentation is available [here](doc\usage.md) for easy integration and understanding of available endpoints, parameters, and response formats.
+   - Detailed API documentation is available [here](doc/usage.md) for easy integration and understanding of available endpoints, parameters, and response formats.
 
 
 ## Table of Contents
