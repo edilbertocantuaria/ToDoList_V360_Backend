@@ -40,8 +40,8 @@ A user logs into the application to create a new project under their task lists.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/edilbertocantuaria/ToDoList_V360
-   cd ToDoList_V360
+   git clone https://github.com/edilbertocantuaria/ToDoList_V360_Backend
+   cd ToDoList_V360_Backend
    ``` 
 2. **Dependencies**: Install dependencies(gems) using bundler
    ```bash
