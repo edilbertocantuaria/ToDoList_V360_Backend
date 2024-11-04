@@ -19,17 +19,17 @@ A user logs into the application to create a new project under their task lists.
 - [To Do List API](#to-do-list-api)
   - [Example Use Case](#example-use-case)
   - [Table of Contents](#table-of-contents)
-  - [Pre requisites](#pre-requisites)
+  - [Requirement](#requirement)
   - [Instalation](#instalation)
-  - [Running the API (Whithout Docker)](#running-the-api-whithout-docker)
-  - [Running the API (Whith Docker)](#running-the-api-whith-docker)
+  - [Running the API (Without Docker)](#running-the-api-without-docker)
+  - [Running the API (With Docker)](#running-the-api-with-docker)
   - [Running tests](#running-tests)
   - [Command Summary Table](#command-summary-table)
 
 
 ---
 
-## Pre requisites
+## Requirements
 
 1. **Ruby** - Ensure Ruby is installed. The recommended version can be found in the `Gemfile`.
    - [Install Ruby](https://www.ruby-lang.org/en/documentation/installation/)
@@ -57,7 +57,7 @@ A user logs into the application to create a new project under their task lists.
  - Refer to `.env.example` for required variables.
 
 
-## Running the API (Whithout Docker)
+## Running the API (Without Docker)
 1. **Database Set Up**: Create and migrate the database.
     ```bash
     rails db:create
@@ -76,7 +76,7 @@ A user logs into the application to create a new project under their task lists.
 3. **Access API Documentation**
 - Visit http://localhost:3000/up on your browser. If you see a green screen, it means your API is running!
 
-## Running the API (Whith Docker)
+## Running the API (With Docker)
 
 1. **Build the image and containers**: 
 - Run the following command to build the Docker image and start the containers:
