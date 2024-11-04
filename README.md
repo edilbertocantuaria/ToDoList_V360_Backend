@@ -65,7 +65,7 @@ A user logs into the application to create a new project under their task lists.
     ```
 - Additionally you can seed:
   ```bash
-  rails db:sedd
+  rails db:seed
   ```
 
 2. **Start the rails Server**
