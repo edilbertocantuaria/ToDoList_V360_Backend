@@ -62,7 +62,23 @@ jobs:
       - name: Install dependencies
         run: bundle install
 
+      - name: Set up Environment Variables
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DEVELOPMENT_DATABASE: ${{ secrets.DEVELOPMENT_DATABASE }}
+          TEST_DATABASE: ${{ secrets.TEST_DATABASE }}
+        run: echo "Environment variables set"
+
       - name: Set up Database
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          RAILS_ENV: test
         run: |
           bundle exec rails db:create 
           bundle exec rails db:seed
