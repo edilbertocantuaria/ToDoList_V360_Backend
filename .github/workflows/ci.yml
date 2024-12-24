@@ -76,7 +76,7 @@ jobs:
         env:
           DB_USERNAME: "postgres"
           DB_PASSWORD: "postgres"
-          DB_HOST: local"host
+          DB_HOST: "localhost"
           DB_PORT: "5432"
           RAILS_ENV: "test"
         run: |
