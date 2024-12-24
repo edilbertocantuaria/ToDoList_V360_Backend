@@ -19,7 +19,7 @@ A user logs into the application to create a new project under their task lists.
 - [To Do List API](#to-do-list-api)
   - [Example Use Case](#example-use-case)
   - [Table of Contents](#table-of-contents)
-  - [Requirement](#requirement)
+  - [Requirements](#requirements)
   - [Instalation](#instalation)
   - [Running the API (Without Docker)](#running-the-api-without-docker)
   - [Running the API (With Docker)](#running-the-api-with-docker)
@@ -50,7 +50,7 @@ A user logs into the application to create a new project under their task lists.
    ``` 
 2. **Dependencies**: Install dependencies(gems) using bundler
    ```bash
-    bundle install
+   bundle install
    ``` 
 3. **Set Up Environment Variables**
  - Create a `.env` file in the root directory and add required environment variables.
@@ -60,8 +60,8 @@ A user logs into the application to create a new project under their task lists.
 ## Running the API (Without Docker)
 1. **Database Set Up**: Create and migrate the database.
     ```bash
-    rails db:create
-    rails db:migrate
+   rails db:create
+   rails db:migrate
     ```
 - Additionally you can seed:
   ```bash
@@ -70,7 +70,7 @@ A user logs into the application to create a new project under their task lists.
 
 2. **Start the rails Server**
    ```bash
-    rails server
+   rails server
    ``` 
 - The server will start at http://localhost:3000 by default.
 3. **Access API Documentation**
@@ -81,16 +81,16 @@ A user logs into the application to create a new project under their task lists.
 1. **Build the image and containers**: 
 - Run the following command to build the Docker image and start the containers:
     ```bash
-    docker compose up --build
+   docker compose up --build
     ```
 
 2. **Database Set Up**: Create and migrate the database.
     ```bash
-    docker-compose exec app rails db:create db:migrate
+   docker-compose exec app rails db:create db:migrate
     ```
 - Additionally you can seed:
   ```bash
-  docker-compose exec app rails db:seed
+   docker-compose exec app rails db:seed
   ```
 - The server will start at http://localhost:3000 by default.
   
@@ -98,24 +98,27 @@ A user logs into the application to create a new project under their task lists.
 - Visit http://localhost:3000/up on your browser. If you see a green screen, it means your API is running!
 
 ## Running tests
-
-1. To run tests, use:
+1. Execute the pending migrations on the database configured for the test environment.
+   ```bash
+   rails db:migrate RAILS_ENV=test
+   ```
+2. To run tests, use:
     ```bash 
-       rails test
+   rails test
     ```
     This comand should create a new folder called `coverage` with a `.html` file that displays the line-by-line test coverage. 
 
-2. To run a specific test, use:
+3. To run a specific test, use:
     ```bash 
-       rails test <path_name>
+   rails test <path_name>
     ```
     for exemple, to run all tests in the `models` folder:
     ```bash 
-       rails test models
+   rails test models
     ```
     Or to run just `task_lists_controller_test.rb` file: 
     ```bash 
-       rails test task_lists_controller_test.rb
+   rails test task_lists_controller_test.rb
     ```
 
 ## Command Summary Table
