@@ -64,21 +64,21 @@ jobs:
 
       - name: Set up Environment Variables
         env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DEVELOPMENT_DATABASE: ${{ secrets.DEVELOPMENT_DATABASE }}
-          TEST_DATABASE: ${{ secrets.TEST_DATABASE }}
+          DB_USERNAME: "postgres"
+          DB_PASSWORD: "postgres"
+          DB_HOST: "localhost"
+          DB_PORT: "5432"
+          DEVELOPMENT_DATABASE: "to_do_list_development"
+          TEST_DATABASE: "to_do_list_test"
         run: echo "Environment variables set"
 
       - name: Set up Database
         env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          RAILS_ENV: test
+          DB_USERNAME: "postgres"
+          DB_PASSWORD: "postgres"
+          DB_HOST: local"host
+          DB_PORT: "5432"
+          RAILS_ENV: "test"
         run: |
           bundle exec rails db:create 
           bundle exec rails db:seed
