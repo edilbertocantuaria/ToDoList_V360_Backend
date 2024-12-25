@@ -80,7 +80,6 @@ jobs:
           DB_PORT: "5432"
           RAILS_ENV: "test"
         run: |
-          bundle exec rails db:create 
           bundle exec rails db:seed
           bundle exec rails rails db:migrate RAILS_ENV=test
 
