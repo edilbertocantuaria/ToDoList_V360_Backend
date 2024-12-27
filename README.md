@@ -85,6 +85,8 @@ A user logs into the application to create a new project under their task lists.
     ```
 
 2. **Database Set Up**: Create and migrate the database.
+   Note: this command may be not necessary.
+
     ```bash
    docker-compose exec app rails db:create db:migrate
     ```
@@ -94,7 +96,7 @@ A user logs into the application to create a new project under their task lists.
   ```
 - The server will start at http://localhost:3000 by default.
   
-3. **Access API Documentation**
+1. **Access API Documentation**
 - Visit http://localhost:3000/up on your browser. If you see a green screen, it means your API is running!
 
 ## Running tests
